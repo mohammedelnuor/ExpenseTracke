@@ -1,4 +1,23 @@
+import incomeModel from "../models/incomeModel";
+import expenseModel from "../models/expenseModel";
 
+export async function getDashboardOverview(req,res) {
+  const userId = req.user._id
+  const now = new Date();
+  const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+
+try{
+  const incomes = await incomeModel.find({
+    userId,
+    date: {$gte: startOfMonth, $lte: now},
+  }).lean();
+
+  const expenses = await expenseModel.find({
+     userId,
+    date: {$gte: startOfMonth, $lte: now},
+  }).lean();
+
+  
 
     const monthlyIncome = incomes.reduce((acc, cur) => acc + Number(cur.amount || 0), 0);
     const monthlyExpense = expenses.reduce((acc, cur) => acc + Number(cur.amount || 0), 0);
@@ -20,4 +39,29 @@
       category,
       amount,
       percent: monthlyExpense === 0 ? 0 : Math.round((amount / monthlyExpense) * 100),
-    }));
+    }));  //for chart
+
+    return res.status(200).json({
+      success : true,
+      date: {
+        monthlyIncome,
+        monthlyExpense,
+        savings,
+        savingsRate,
+        recentTransactions,
+        spendByCategory,
+        expenseDistribution
+      }
+    })
+
+}
+
+catch (err) {
+
+}console.error("getDashboardOverview error :", err);
+return res.status(500).json({
+  success: false,
+  message:"Dasgboard Fatech failed"
+})
+
+}

@@ -1,5 +1,5 @@
 import incomeModel from "../models/incomeModel.js";
-import XSXL from 'xlsx';
+import XLSX from 'xlsx';   // كان XSXL
 import getDateRange from "../utils/dateFilter.js";
 
 
@@ -14,7 +14,7 @@ export async function addIncome(req,res) {
         if(!description ||!amount || !category || !date ) {
             return res.status(400).json({
                 success: false,
-                message: "all fields are reqired"
+                message: "all fields are required"   // كان reqired
             });
         }
 
@@ -29,7 +29,7 @@ export async function addIncome(req,res) {
         res.json({
               success: true,
                 message: "income added successfully!"
-        })
+        });
     }
 
     catch (error) {
@@ -42,10 +42,10 @@ export async function addIncome(req,res) {
 }
 
 // to get income(all)
-export async function getAIIIncome(req, res) {
+export async function getAllIncome(req, res) {   // كان getALLIncome
      const userId = req.user._id;
      try {
-        const income = (await incomeModel.find({ userId })).toSorted({date: -1});
+        const income = await incomeModel.find({ userId }).sort({date: -1}); // كان toSorted
         res.json(income)
      }
 
@@ -67,21 +67,21 @@ export async function updateIncome(req, res) {
      const {description, amount}= req.body;
 
      try{
-        const updatedIncome = await incomeModel.findCneAndUpdate(
+        const updatedIncome = await incomeModel.findOneAndUpdate(   // كان findCneAndUpdate
             {_id: id,userId},
            {description,amount},
              {new:true}
         );
 
-        if(!updateIncome) {
+        if(!updatedIncome) {   
             return res.status(404).json({
                 success: false,
                 message: "Income not found"
             })
         }
 
-        res.json({success: true, message: "Income updated successfully." , date:
-            updateIncome
+        res.json({success: true, message: "Income updated successfully." , data:
+            updatedIncome   
         })
 
     }
@@ -101,7 +101,7 @@ export async function updateIncome(req, res) {
 export async function deleteIncome(req , res) {
     
     try{
-        const income = await incomeModel.findByIdAndDelete({_id:req.params.id});
+        const income = await incomeModel.findByIdAndDelete(req.params.id); // كان {...}
         if (!income) {
             return res.status(404).json({
                 success: false,
@@ -130,17 +130,17 @@ export async function downloadIncomeExel(req, res) {
     try {
         const income = await incomeModel.find({ userId }).sort({ date: -1 });
 
-        income.map((inc) => ({
+        const plainData = income.map((inc) => ({     
             description: inc.description,
             amount: inc.amount,
             category: inc.category,
             Date: new Date(inc.date).toLocaleDateString(),
         }));
 
-        const worksheet = XSXL.utils.json_to_sheet(plainData);
-        const workbook = XSXL.utils.book_new();
-        XSXL.utils.book_append_sheet(workbook , worksheet, "incomeModel")
-        XSXL.writeFile(workbook, "income_details.xlsx");
+        const worksheet = XLSX.utils.json_to_sheet(plainData);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook , worksheet, "incomeModel")
+        XLSX.writeFile(workbook, "income_details.xlsx");
         res.download("income_details.xlsx");
     }
     catch (error) {
@@ -155,10 +155,10 @@ export async function downloadIncomeExel(req, res) {
 export async function getIncomeOverview(req,res) {
     try {
         const userId = req.user._id;
-        const {Range = "monthly"} = req.query;
+        const {range = "monthly"} = req.query;   // كان Range
         const {start, end} = getDateRange(range);
 
-        const incomes = await incomeModel({
+        const incomes = await incomeModel.find({   // كان incomeModel({...})
             userId,
             date:{$gte: start, $lte: end},
         }).sort({ date: -1 });
@@ -188,5 +188,3 @@ export async function getIncomeOverview(req,res) {
         });
     }
 }
-
-
