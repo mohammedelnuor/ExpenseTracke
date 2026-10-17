@@ -52,7 +52,6 @@ const Navbar = ({ user: propUser, onlogout }) => {
         setMenuOpen(false);
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
@@ -72,10 +71,7 @@ const Navbar = ({ user: propUser, onlogout }) => {
 
         {user && (
           <div className={navbarStyles.userContainer} ref={menuRef}>
-            <button
-              onClick={toggleMenu}
-              className={navbarStyles.userButton}
-            >
+            <button onClick={toggleMenu} className={navbarStyles.userButton}>
               <div className="relative">
                 <div className={navbarStyles.userAvatar}>
                   {user?.name?.[0]?.toUpperCase() || "U"}
