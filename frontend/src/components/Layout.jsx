@@ -1,19 +1,21 @@
 import { useState } from "react";
-import {styles} from "../assets/dummyStyles";
+import { styles } from "../assets/dummyStyles";
 import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
-const Layout = ({onlogout, user}) => {
-  const [sidebarCollepsed, setSidebarCollapsed] = useState (false);
+
+const Layout = ({ onlogout, user }) => {
+  const [isCollapsed, setisCollapsed] = useState(false);
+
   return (
     <div className={styles.layout.root}>
-      <Navbar user={user} onlogout={onlogout}/>
-      <Sidebar user={user} isCollapsed={sidebarCollepsed} 
-      sidebarCollepsed ={setSidebarCollapsed} />
-
-     
+      <Navbar user={user} onlogout={onlogout} />
+      <Sidebar 
+        user={user} 
+        isCollapsed={isCollapsed} 
+        setisCollapsed={setisCollapsed} 
+      />
     </div>
-    
-  )
-}
+  );
+};
 
-export default Layout
+export default Layout;
