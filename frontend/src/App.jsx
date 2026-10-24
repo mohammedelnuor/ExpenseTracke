@@ -3,6 +3,7 @@ import Layout from "./components/Layout"
 import Dashboard from "./pages/Dashboard"
 import { useState } from "react"
 import Login from "./components/Login"
+import Signup from "./components/Signup"
 
 function App() {
   const [user, setUser] = useState(null)
@@ -41,13 +42,17 @@ function App() {
     }
     setUser(null)
     setToken(null)
-  }
+  };
 
   const handleLogin = (userData, remember = false, tokenFromApi = null) => {
     persistAuth(userData, tokenFromApi, remember)
     navigate("/")
-  }
+  };
 
+  const handleSignup =(userData, remember = false, tokenFromApi = null) => {
+    persistAuth(userData, tokenFromApi, remember)
+    navigate("/")
+  };
   const handleLogout = () => {
     clearAuth()
     navigate("/login")
@@ -57,6 +62,7 @@ function App() {
     <>
       <Routes>
         <Route path="/login" element={<Login onLogin={handleLogin} />} />
+        <Route path="/signup" element={<Signup  onSignup={handleLogin}/>} />
 
         <Route element={<Layout user={user} onLogout={handleLogout} />}>
           <Route path="/" element={<Dashboard />} />

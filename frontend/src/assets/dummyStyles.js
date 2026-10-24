@@ -392,12 +392,13 @@ export const loginStyles = {
   passwordToggle: "absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600",
   
   // Checkbox
-  checkboxContainer: "mb-6 flex items-center",
-  checkbox: "w-4 h-4 text-teal-600 border-gray-300 rounded focus:ring-teal-500",
-  checkboxLabel: "ml-2 block text-sm text-gray-700",
+checkboxContainer: "mb-6 flex items-center justify-center",
+checkbox: "w-4 h-4 text-teal-600 border-gray-300 rounded focus:ring-teal-500",
+checkboxLabel: "ml-2 inline-flex items-center text-sm text-gray-700 cursor-pointer select-none",
+
   
   // Button
-  button: "w-full bg-gradient-to-r from-teal-500 to-emerald-600 text-white py-3 rounded-xl font-medium shadow-md hover:shadow-lg transition-all flex items-center justify-center",
+  button: "w-full  bg-gradient-to-r from-teal-500 to-emerald-600 text-white py-3 rounded-xl font-medium shadow-md hover:shadow-lg transition-all flex items-center justify-center",
   buttonDisabled: "opacity-80 cursor-not-allowed",
   
   // Sign up link
@@ -487,10 +488,10 @@ export const signupStyles = {
   buttonDisabled: "opacity-80 cursor-not-allowed",
   
   // Sign in link (reusing from login with modifications)
-  signInContainer: "mt-8 text-center",
-  signInText: "text-gray-600",
-  signInLink: "font-medium text-teal-600 hover:underline",
-  
+signInContainer: "mt-8 text-center",
+signInText: "text-sm text-gray-600",
+signInLink: "inline font-semibold text-green-600 hover:text-green-700 hover:underline transition-colors duration-200",
+
   // Spinner for loading state (reusing from login)
   spinner: "animate-spin -ml-1 mr-3 h-5 w-5 text-white"
 };
