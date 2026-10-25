@@ -4,7 +4,7 @@ import axios from 'axios';
 import { ArrowLeft, Eye, EyeOff, Mail, User, Lock } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom'
 
-const Signup = ({ onLogin, API_URL = "http://localhost:4000", onSignup }) => {
+const Signup = ({ API_URL = "http://localhost:4000", onSignup }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
