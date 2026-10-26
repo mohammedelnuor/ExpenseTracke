@@ -1,13 +1,18 @@
 import { dashboardStyles, trendStyles, chartStyles } from "../assets/dummyStyles"
 import { GAUGE_COLORS, INCOME_COLORS, EXPENSE_CATEGORY_ICONS } from "../assets/color"
 import axios from "axios";
+import { useEffect, useMemo, useState } from "react";
+import { Plus } from "lucide-react";
+import { useOutletContext } from "react-router-dom";
 
-const API_BASE = "http://localhost:4000";
+import {calculateData, getPreviousTimeFrameRange, getTimeFrameRange} from "../components/Helpers";
+const API_BASE = "http://localhost:4000/api";
 
 const getAuthHeader = () => {
-  const token = localStorage.getItem("token") || localStorage.getItem("authToken");
+  const token = 
+  localStorage.getItem("token") || localStorage.getItem("authToken");
   return token ? { Authorization: `Bearer ${token}` } : {};
-}
+};
 
 // to convert date to iso timeline
 function toIsoWithClientTime(dateValue) {
@@ -202,7 +207,7 @@ const Dashboard = () => {
     : expenseListForDisplay.slice(0, 3);
 
     // fetch the server-side data
-    const fetchDashboardQverview = async () => {
+    const fetchDashboardOverview = async () => {
       try {
         setLoading(true);
         const res = await axios.get(`${API_BASE}/dashboard`,{
@@ -280,15 +285,93 @@ const Dashboard = () => {
         console.warn("Dashboard endpoint returned success:false", res?.data);
       }
     } catch (err) {
-      console.error("Failed to fetch dashboard overview:", err?.response || err.message || err);
+      console.error("Failed to fetch dashboard overview:",
+         err?.response || err.message || err
+        );
+    } finally {
+      setLoading(false);
     }
-  
   };
 
+  useEffect(() => {
+    fetchDashboardOverview();
+  }, [ ]);
+
+  // add/ edit or //delete
+  const handleAddTransaction = async () =>{
+    if (!newTransaction.description || !newTransaction.amount) return;
+   
+    const payload = {
+         date: toIsoWithClientTime(newTransaction.date),
+      description: newTransaction.description,
+      amount:parseFloat(newTransaction.amount),
+      category: newTransaction.category,
+    }
+
+    try {
+      setLoading(true);
+      if(newTransaction.type === "income"){
+        await axios.post(`${API_BASE}/income/add`, payload,{
+          headers: getAuthHeader(),
+        });
+      } else{
+        await axios.post(`${API_BASE}/expense/add`, payload,{
+          headers: getAuthHeader(),
+        });
+      }
+      await refreshTransactions();
+      await fetchDashboardOverview();
+
+      setNewTransaction({
+        date: new Date().toISOString().split("T")[0],
+        description: "",
+        amount:"",
+        type:"expense",
+        category: "Food",
+      });setShowModal(false);
+    } catch (err) {
+      console.error("Failed to add Transactions:",
+         err?.response || err.message || err
+        );
+
+    } finally {
+      setLoading(false);
+    }
+    };
+  
+
   return (
-    <div>Dashboard</div>
+    <div className={dashboardStyles.container}>
+      {/* header */}
+      <div className={dashboardStyles.headerContainer}>
+        <div className={dashboardStyles.headerContent}>
+          <div>
+            <h1 className={dashboardStyles.headerTitle}> Finance Dashbord </h1>
+            <p className={dashboardStyles.headerSubtitle}>
+              Track your income and expenses
+            </p>
+          </div>
+          <button onClick={() => setShowModal(true)} 
+          className={dashboardStyles.addButton}>
+              <Plus size={20}/>
+              Add Transaction
+          </button>
+        </div>
+        <div className={dashboardStyles.timeFrameContainer}>
+          <div className={dashboardStyles.timeFrameWrapper}>
+            {["daile", "weekly" , "monthly"].map((frame) => (
+              <button key={frame} onClick={() => setTimeFrame(frame)}
+              className={dashboardStyles.timeFrameButton(timeFrame === frame)}
+              >
+                {frame.charAt(0).toUpperCase() + frame.slice(1)}
+
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+      </div>
   )
 }
 
 export default Dashboard
-//2:30:45s
