@@ -63,17 +63,17 @@ const AddTransactionModal = ({
                 }} 
                 className={modalStyles.input(colorClass.ring)}
                 placeholder={
-                    type === "both"? "Salary , Funds , etc."
-                     : "Groceries, Rent, etc."
-                }required
+                  type === "both" ? "Salary, Funds, etc." : "Groceries, Rent, etc."
+                }
+                required
               />
             </div>
 
             <div>
               <label className={modalStyles.label}>Amount</label>
               <input 
-                type='nimber' 
-                value={newTransaction.Amount}
+                type='number' 
+                value={newTransaction.amount}
                 onChange={(e) => {
                   setNewTransaction((prev) => ({
                     ...prev,
@@ -86,8 +86,6 @@ const AddTransactionModal = ({
               />
             </div>
 
-
-             
             {type === "both" && (
               <div>
                 <label className={modalStyles.label}>Type</label>
@@ -115,37 +113,50 @@ const AddTransactionModal = ({
                 </div>
               </div>
             )}
+
             <div>
-                <label className={modalStyles.label}> Category </label>
-                <section value={newTransaction.category}
+              <label className={modalStyles.label}>Category</label>
+              <select 
+                value={newTransaction.category}
                 onChange={(e) => 
-                    setNewTransaction((prev) => ({
-                        ...prev,
-                        category: e.target.value
-                    }))
-                }className={modalStyles.input(colorClass.ring)}>
-                    {categories.map((cat ) => (
-                        <option value={cat} key={cat}>
-                            {cat}
-                        </option>
-                    ))}
-                </section>
+                  setNewTransaction((prev) => ({
+                    ...prev,
+                    category: e.target.value
+                  }))
+                }
+                className={modalStyles.input(colorClass.ring)}
+              >
+                {categories.map((cat) => (
+                  <option value={cat} key={cat}>
+                    {cat}
+                  </option>
+                ))}
+              </select>
             </div>
 
             <div>
-                <label className={modalStyles.label}>Date</label>
-                <input type='date' value={newTransaction.date} onChange={(e) =>
-                    newTransaction  ((prev) => ({
-                        ...prev,
-                        date: e.target.value
-                    }))
-                } className={modalStyles.input(colorClass.ring)}
-                min={minDate} max={currentDate}
-                required/>
+              <label className={modalStyles.label}>Date</label>
+              <input 
+                type='date' 
+                value={newTransaction.date} 
+                onChange={(e) =>
+                  setNewTransaction((prev) => ({
+                    ...prev,
+                    date: e.target.value
+                  }))
+                } 
+                className={modalStyles.input(colorClass.ring)}
+                min={minDate} 
+                max={currentDate}
+                required
+              />
             </div>
 
-            <button type="submit" className={modalStyles.submitButton(colorClass.button)}>
-                {buttonText}
+            <button 
+              type="submit" 
+              className={modalStyles.submitButton(colorClass.button)}
+            >
+              {buttonText}
             </button>
           </div>
         </form>
