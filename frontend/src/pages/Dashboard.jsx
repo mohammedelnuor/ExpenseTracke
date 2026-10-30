@@ -43,6 +43,8 @@ const COLORS = [
 ];
 
 
+
+
 // to convert date to iso timeline
 function toIsoWithClientTime(dateValue) {
   if (!dateValue) {
@@ -563,7 +565,7 @@ const Dashboard = () => {
  
     <div className={dashboardStyles.transactionList}>
       {displayedIncome.map((transaction) => {
-        const IconComponent = INCOME_CATEGORY_ICONS[transaction.category] || INCOME_CATEGORY_ICONS.Other;
+        const IconComponent = EXPENSE_CATEGORY_ICONS[transaction.category] || EXPENSE_CATEGORY_ICONS.Other;
         return (
           <div key={transaction.id} className={dashboardStyles.incomeTransactionItem}>
             <div className={dashboardStyles.transactionContent}>

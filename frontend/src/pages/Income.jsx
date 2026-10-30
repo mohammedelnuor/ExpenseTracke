@@ -47,7 +47,7 @@ function toIsoWithClientTime(dateValue) {
 
   try {
     return new Date(dateValue).toISOString();
-  } catch (err) {
+  } catch  {
     return new Date().toISOString();
   }
 }
@@ -165,7 +165,7 @@ const FilterSection = ({ filter, setFilter, handleExport }) => (
   </div>
 );
 
-const IncomePage = () => {
+const Income = () => {
   const {
     transactions: outletTransactions = [],
     timeFrame = "monthly",
@@ -313,7 +313,7 @@ const IncomePage = () => {
   );
 
   useEffect(() => {
-    fetchOverview(timeFrame ?? "monthly");
+    void Promise.resolve().then(() => fetchOverview(timeFrame ?? "monthly"));
   }, [fetchOverview, timeFrame]);
 
   const totalIncome = useMemo(
@@ -673,4 +673,9 @@ const IncomePage = () => {
   );
 };
 
+<<<<<<< HEAD
 export default Income;
+=======
+
+export default Income;
+>>>>>>> 640dab6 (stoup in 4225:05s)
