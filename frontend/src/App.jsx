@@ -6,6 +6,8 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import axios from "axios";
 import Income from "./pages/Income";
+import Expense from "./pages/Expense";
+import Profile from "./pages/Profile";
 
 
 const API_URL = "http://localhost:4000";
@@ -211,7 +213,7 @@ function App() {
           <Layout user={user} onLogout={handleLogout}
             transactions={transactions}
       addTransaction={addTransaction}
-       editTransaction={addTransaction}
+      editTransaction={editTransaction}
       deleteTransaction={deleteTransaction} 
       refreshTransactions={refreshTransactions} />
         </ProtectedRoute>
@@ -220,19 +222,41 @@ function App() {
       <Route path="/" element={<Dashboard />}
        transactions={transactions}
       addTransaction={addTransaction}
-       editTransaction={addTransaction}
+      editTransaction={editTransaction}
       deleteTransaction={deleteTransaction} 
       refreshTransactions={refreshTransactions}
        />
 
-       <Route path="/income" element={
+       <Route path="/Income" element={
         <Income   transactions={transactions}
       addTransaction={addTransaction}
-       editTransaction={addTransaction}
+      editTransaction={editTransaction}
       deleteTransaction={deleteTransaction} 
       refreshTransactions={refreshTransactions} />
        } />
+
+
+       
+       <Route path="/expense"
+        element={
+        <Expense
+         transactions={transactions}
+      addTransaction={addTransaction}
+      editTransaction={editTransaction}
+      deleteTransaction={deleteTransaction} 
+      refreshTransactions={refreshTransactions} />
+       } />
+
+
+       <Route path="/profile" element={<Profile user={user} 
+       onUpdeteProfile={updateUserData} onLogin={handleLogout}
+       />
+       }
+        />
     </Route>
+
+    <Route path="*" element={<Navigate to={user ? "/" : "/login"} replace/>}
+     />
   </Routes>
 </>
 
