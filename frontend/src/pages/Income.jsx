@@ -266,15 +266,22 @@ const IncomePage = () => {
 
     filteredTransactions.forEach((transaction) => {
       const transDate = new Date(transaction.date);
-      const point = data.find((d) =>
-        timeFrame === "daily"
-          ? d.hour === transDate.getHours()
-          : timeFrame === "yearly"
-            ? d.date.getMonth() === transDate.getMonth()
-            : d.date.getDate() === transDate.getDate() &&
-              d.date.getMonth() === transDate.getMonth(),
-      );
-      point && (point.income += Math.round(Number(transaction.amount)));
+      const point = data.find((d) => {
+        if (timeFrame === "daily") {
+          return d.hour === transDate.getHours();
+        }
+        if (timeFrame === "yearly") {
+          return d.date.getMonth() === transDate.getMonth();
+        }
+        return (
+          d.date.getDate() === transDate.getDate() &&
+          d.date.getMonth() === transDate.getMonth()
+        );
+      });
+
+      if (point) {
+        point.income += Math.round(Number(transaction.amount));
+      }
     });
 
     return data;
@@ -459,6 +466,7 @@ const IncomePage = () => {
         const match = disposition.match(/filename="?(.+)"?/);
         if (match && match[1]) filename = match[1];
       }
+
       const link = document.createElement("a");
       link.href = window.URL.createObjectURL(blob);
       link.download = filename;
