@@ -1,8 +1,9 @@
 import React, { useCallback, useState } from 'react'
+import axios from 'axios';
 import { profileStyles } from '../assets/dummyStyles'
 import Modal from 'react-modal';
 import { Eye, EyeOff } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { data, useNavigate } from 'react-router-dom';
 
 
 const BASE_URL = "http://localhost:4000/api";
@@ -76,6 +77,26 @@ const Profile = ({user: onUpdateProfile, onLogout}) => {
   const getAuthToken = useCallback(() => localStorage.getItem("token"), []);
 
   // api requst
+  const handleApiRequest = useCallback(async(method, endpoint, data = null) =>{
+    const token = getAuthToken();
+    if (!token) {
+      navigate("/login");
+      return null;
+    }
+    try {
+      setLoading(true);
+      const config = {
+        method,
+        url: `${BASE_URL} ${endpoint}`,
+        headers: {Authorization: `Bearer ${token}`},
+      };
+      if (data) config.data = data;
+      const response = await axios(config);
+      return response.data;
+    } catch (error) {
+      console.error(`${method} request srror:`, error);
+    }
+  })
  
   return (
     <div>Profile</div>
