@@ -5,7 +5,7 @@ import { useRef, useState, useEffect } from "react";
 import { ChevronDown, LogOut, User } from "lucide-react";
 import axios from "axios";
 
-const BASE_URL = "http://localhost:4000/api";
+const BASE_URL = "https://expensetracke-g14z.onrender.com/api";
 
 const Navbar = ({ user: propUser, onlogout }) => {
   const navigate = useNavigate();
