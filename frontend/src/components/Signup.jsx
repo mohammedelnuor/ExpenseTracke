@@ -181,7 +181,7 @@ const Signup = ({
                   className={`${signupStyles.input} ${
                     errors.email ? "border-red-300" : "border-gray-200"
                   }`}
-                  placeholder="user@example.com"
+                  placeholder="user@gmail.com"
                 />
               </div>
               {errors.email && (
