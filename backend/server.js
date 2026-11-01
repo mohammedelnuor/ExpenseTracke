@@ -6,9 +6,9 @@ import userRouter from './routes/userRoute.js';
 import incomeRouter from './routes/incomeRoute.js';
 import expenseRouter from './routes/expenseRoute.js';
 import dashboardRouter from './routes/dashboardRoute.js';
+import dotenv from "dotenv";
 
-
-
+dotenv.config();
 
 const app = express();
 const port = 4000;
