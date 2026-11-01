@@ -673,9 +673,7 @@ const Income = () => {
   );
 };
 
-<<<<<<< HEAD
-export default Income;
-=======
+
 
 export default Income;
->>>>>>> 640dab6 (stoup in 4225:05s)
+
