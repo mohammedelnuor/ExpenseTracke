@@ -24,6 +24,7 @@ import {
 } from "lucide-react";
 import axios from "axios";
 import { Outlet } from "react-router-dom";
+import Footer from "./Footar";
 
 const API_BASE = "http://localhost:4000/api";
 
@@ -397,6 +398,7 @@ const Layout = ({ onlogout, user }) => {
     : transactions.slice(0, 4);
 
   return (
+    <>
     <div className={styles.layout.root}>
       <Navbar user={user} onlogout={onlogout} />
 
@@ -754,6 +756,8 @@ const Layout = ({ onlogout, user }) => {
         </div>
       </div>
     </div>
+    <Footer />
+    </>
   );
 };
 
