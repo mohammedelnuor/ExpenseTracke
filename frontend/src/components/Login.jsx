@@ -143,7 +143,7 @@ const Login = ({
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className={loginStyles.input}
-                  placeholder='user@example.com'
+                  placeholder='user@gmail.com'
                   required
                 />
               </div>
